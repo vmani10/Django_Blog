@@ -1,0 +1,1012 @@
+{% extends "blog/base.html" %}
+
+{% block title %}DjangoBlog | Home{% endblock %}
+
+{% block content %}
+
+<style>
+    /* =====================================================
+       DJANGO BLOG HOME PAGE
+    ===================================================== */
+
+    .home-page {
+        background: #f7f8fa;
+        min-height: 100vh;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .home-hero {
+        background: linear-gradient(
+            135deg,
+            #111827 0%,
+            #1f2937 50%,
+            #111827 100%
+        );
+
+        color: #ffffff;
+        padding: 90px 0;
+        overflow: hidden;
+    }
+
+    .home-hero-content {
+        max-width: 650px;
+    }
+
+    .hero-small-text {
+        display: inline-block;
+
+        padding: 7px 16px;
+
+        border: 1px solid #4b5563;
+
+        border-radius: 30px;
+
+        color: #d1d5db;
+
+        font-size: 14px;
+
+        margin-bottom: 22px;
+    }
+
+    .home-hero h1 {
+        font-size: 60px;
+
+        line-height: 1.08;
+
+        font-weight: 800;
+
+        margin-bottom: 25px;
+
+        letter-spacing: -2px;
+    }
+
+    .home-hero h1 span {
+        text-decoration: underline;
+
+        text-underline-offset: 8px;
+    }
+
+    .home-hero p {
+        color: #d1d5db;
+
+        font-size: 18px;
+
+        line-height: 1.8;
+
+        margin-bottom: 30px;
+    }
+
+    .hero-button {
+        display: inline-block;
+
+        background: #ffffff;
+
+        color: #111827;
+
+        padding: 13px 25px;
+
+        border-radius: 9px;
+
+        font-weight: 600;
+
+        text-decoration: none;
+
+        transition: 0.3s;
+    }
+
+    .hero-button:hover {
+        background: #e5e7eb;
+
+        color: #111827;
+
+        transform: translateY(-3px);
+    }
+
+
+    /* =====================================================
+       CODE BOX
+    ===================================================== */
+
+    .code-box {
+        background: #0b1120;
+
+        border: 1px solid #374151;
+
+        border-radius: 18px;
+
+        padding: 35px;
+
+        max-width: 400px;
+
+        margin: auto;
+
+        box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .code-top {
+        display: flex;
+
+        gap: 7px;
+
+        margin-bottom: 25px;
+    }
+
+    .code-dot {
+        width: 11px;
+
+        height: 11px;
+
+        border-radius: 50%;
+
+        background: #6b7280;
+    }
+
+    .code-content {
+        font-family: Consolas, monospace;
+
+        font-size: 17px;
+
+        line-height: 2;
+
+        color: #d1d5db;
+    }
+
+    .code-keyword {
+        color: #ffffff;
+    }
+
+
+    /* =====================================================
+       POSTS SECTION
+    ===================================================== */
+
+    .posts-section {
+        padding: 75px 0;
+    }
+
+    .section-heading {
+        text-align: center;
+
+        margin-bottom: 40px;
+    }
+
+    .section-heading h2 {
+        font-size: 38px;
+
+        font-weight: 800;
+
+        color: #111827;
+
+        margin-bottom: 8px;
+    }
+
+    .section-heading p {
+        color: #6b7280;
+
+        font-size: 17px;
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    .home-search {
+        max-width: 850px;
+
+        margin: 0 auto 25px;
+    }
+
+    .home-search form {
+        display: flex;
+
+        background: #ffffff;
+
+        border-radius: 10px;
+
+        overflow: hidden;
+
+        border: 1px solid #e5e7eb;
+
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .home-search input {
+        flex: 1;
+
+        border: none;
+
+        outline: none;
+
+        padding: 17px 20px;
+
+        font-size: 16px;
+    }
+
+    .home-search button {
+        border: none;
+
+        background: #111827;
+
+        color: #ffffff;
+
+        padding: 0 28px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .home-search button:hover {
+        background: #000000;
+    }
+
+
+    /* =====================================================
+       CATEGORIES
+    ===================================================== */
+
+    .category-list {
+        display: flex;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+        margin-bottom: 45px;
+    }
+
+    .category-item {
+        background: #ffffff;
+
+        border: 1px solid #d1d5db;
+
+        color: #374151;
+
+        padding: 8px 17px;
+
+        border-radius: 25px;
+
+        font-size: 14px;
+
+        text-decoration: none;
+
+        transition: 0.3s;
+    }
+
+    .category-item:hover {
+        background: #111827;
+
+        color: #ffffff;
+
+        border-color: #111827;
+    }
+
+
+    /* =====================================================
+       POST CARD
+    ===================================================== */
+
+    .post-card {
+        height: 100%;
+
+        background: #ffffff;
+
+        border-radius: 16px;
+
+        overflow: hidden;
+
+        border: 1px solid #e5e7eb;
+
+        transition: 0.3s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-7px);
+
+        box-shadow:
+            0 18px 40px rgba(0, 0, 0, 0.10);
+    }
+
+    .post-image {
+        width: 100%;
+
+        height: 220px;
+
+        object-fit: cover;
+    }
+
+    .no-image {
+        height: 220px;
+
+        background: linear-gradient(
+            135deg,
+            #111827,
+            #374151
+        );
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        color: #ffffff;
+
+        font-size: 50px;
+    }
+
+    .post-content {
+        padding: 24px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        height: calc(100% - 220px);
+    }
+
+    .post-category {
+        display: inline-block;
+
+        width: fit-content;
+
+        background: #111827;
+
+        color: #ffffff;
+
+        padding: 5px 11px;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+
+        margin-bottom: 13px;
+    }
+
+    .post-title {
+        color: #111827;
+
+        font-size: 21px;
+
+        font-weight: 700;
+
+        line-height: 1.4;
+
+        margin-bottom: 8px;
+    }
+
+    .post-meta {
+        color: #9ca3af;
+
+        font-size: 13px;
+
+        margin-bottom: 14px;
+    }
+
+    .post-description {
+        color: #6b7280;
+
+        line-height: 1.7;
+
+        margin-bottom: 20px;
+    }
+
+    .read-button {
+        margin-top: auto;
+
+        display: inline-block;
+
+        background: #111827;
+
+        color: #ffffff;
+
+        text-align: center;
+
+        padding: 10px 18px;
+
+        border-radius: 8px;
+
+        font-weight: 600;
+
+        text-decoration: none;
+
+        transition: 0.3s;
+    }
+
+    .read-button:hover {
+        background: #000000;
+
+        color: #ffffff;
+    }
+
+
+    /* =====================================================
+       EMPTY POSTS
+    ===================================================== */
+
+    .empty-posts {
+        background: #ffffff;
+
+        border-radius: 15px;
+
+        padding: 70px 20px;
+
+        text-align: center;
+
+        border: 1px solid #e5e7eb;
+    }
+
+    .empty-icon {
+        font-size: 55px;
+
+        margin-bottom: 15px;
+    }
+
+    .empty-posts h3 {
+        font-weight: 700;
+
+        color: #111827;
+    }
+
+    .empty-posts p {
+        color: #6b7280;
+
+        margin-bottom: 25px;
+    }
+
+
+    /* =====================================================
+       PAGINATION
+    ===================================================== */
+
+    .home-pagination {
+        display: flex;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        margin-top: 50px;
+    }
+
+    .page-button {
+        padding: 9px 17px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #374151;
+
+        text-decoration: none;
+    }
+
+    .page-button:hover {
+        background: #111827;
+
+        color: #ffffff;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 992px) {
+
+        .home-hero h1 {
+            font-size: 48px;
+        }
+
+        .code-box {
+            margin-top: 45px;
+        }
+    }
+
+
+    @media (max-width: 768px) {
+
+        .home-hero {
+            padding: 65px 20px;
+
+            text-align: center;
+        }
+
+        .home-hero h1 {
+            font-size: 40px;
+
+            letter-spacing: -1px;
+        }
+
+        .home-hero p {
+            font-size: 16px;
+        }
+
+        .code-box {
+            text-align: left;
+
+            padding: 25px;
+        }
+
+        .posts-section {
+            padding: 55px 15px;
+        }
+
+        .section-heading h2 {
+            font-size: 30px;
+        }
+
+        .home-search form {
+            flex-direction: column;
+        }
+
+        .home-search input {
+            width: 100%;
+
+            min-height: 52px;
+        }
+
+        .home-search button {
+            min-height: 50px;
+        }
+    }
+
+
+    @media (max-width: 480px) {
+
+        .home-hero h1 {
+            font-size: 32px;
+        }
+
+        .hero-small-text {
+            font-size: 12px;
+        }
+
+        .code-content {
+            font-size: 14px;
+        }
+
+        .post-image,
+        .no-image {
+            height: 190px;
+        }
+
+        .post-content {
+            padding: 20px;
+        }
+    }
+</style>
+
+
+<div class="home-page">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="home-hero">
+
+        <div class="container">
+
+            <div class="row align-items-center">
+
+
+                <!-- LEFT SIDE -->
+
+                <div class="col-lg-7">
+
+                    <div class="home-hero-content">
+
+                        <span class="hero-small-text">
+                            Welcome to DjangoBlog
+                        </span>
+
+
+                        <h1>
+
+                            Share Your Ideas.
+
+                            <br>
+
+                            Inspire <span>Others.</span>
+
+                        </h1>
+
+
+                        <p>
+
+                            A modern blogging platform where you
+                            can share your knowledge, tutorials,
+                            experiences and ideas with the community.
+
+                        </p>
+
+
+                        {% if user.is_authenticated %}
+
+                            <a
+                                href="{% url 'create_post' %}"
+                                class="hero-button">
+
+                                Start Writing →
+
+                            </a>
+
+                        {% else %}
+
+                            <a
+                                href="{% url 'register' %}"
+                                class="hero-button">
+
+                                Join DjangoBlog →
+
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RIGHT SIDE -->
+
+                <div class="col-lg-5">
+
+                    <div class="code-box">
+
+                        <div class="code-top">
+
+                            <span class="code-dot"></span>
+
+                            <span class="code-dot"></span>
+
+                            <span class="code-dot"></span>
+
+                        </div>
+
+
+                        <div class="code-content">
+
+                            <div>
+                                &lt;<span class="code-keyword">blog</span>&gt;
+                            </div>
+
+                            <div>
+                                &nbsp;&nbsp;share();
+                            </div>
+
+                            <div>
+                                &nbsp;&nbsp;learn();
+                            </div>
+
+                            <div>
+                                &nbsp;&nbsp;build();
+                            </div>
+
+                            <div>
+                                &nbsp;&nbsp;grow();
+                            </div>
+
+                            <div>
+                                &lt;/<span class="code-keyword">blog</span>&gt;
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         POSTS
+    ================================================== -->
+
+    <section class="posts-section">
+
+        <div class="container">
+
+
+            <!-- SECTION TITLE -->
+
+            <div class="section-heading">
+
+                <h2>
+                    Latest Posts
+                </h2>
+
+                <p>
+                    Discover fresh ideas, tutorials and
+                    knowledge from our community.
+                </p>
+
+            </div>
+
+
+
+            <!-- SEARCH -->
+
+            <div class="home-search">
+
+                <form method="GET">
+
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ query|default:'' }}"
+                        placeholder="Search blog posts..."
+                    >
+
+                    <button type="submit">
+                        Search
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- CATEGORIES -->
+
+            <div class="category-list">
+
+                <a
+                    href="{% url 'home' %}"
+                    class="category-item">
+
+                    All
+
+                </a>
+
+
+                {% for category in categories %}
+
+                    <a
+                        href="{% url 'home' %}?category={{ category.slug }}"
+                        class="category-item">
+
+                        {{ category.name }}
+
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BLOG POSTS
+            ================================================== -->
+
+            <div class="row g-4">
+
+
+                {% for post in posts %}
+
+                    <div class="col-md-6 col-lg-4">
+
+                        <article class="post-card">
+
+
+                            <!-- IMAGE -->
+
+                            {% if post.image %}
+
+                                <img
+                                    src="{{ post.image.url }}"
+                                    alt="{{ post.title }}"
+                                    class="post-image"
+                                >
+
+                            {% else %}
+
+                                <div class="no-image">
+
+                                    ✍
+
+                                </div>
+
+                            {% endif %}
+
+
+
+                            <!-- POST CONTENT -->
+
+                            <div class="post-content">
+
+
+                                {% if post.category %}
+
+                                    <span class="post-category">
+
+                                        {{ post.category.name }}
+
+                                    </span>
+
+                                {% endif %}
+
+
+                                <h3 class="post-title">
+
+                                    {{ post.title }}
+
+                                </h3>
+
+
+                                <div class="post-meta">
+
+                                    By
+                                    {{ post.author.username }}
+
+                                    &nbsp;•&nbsp;
+
+                                    {{ post.created_at|date:"M d, Y" }}
+
+                                </div>
+
+
+                                <p class="post-description">
+
+                                    {{ post.content|truncatewords:25 }}
+
+                                </p>
+
+
+                                <!--
+                                    We intentionally use "#" here
+                                    because your project currently
+                                    does not have a post_detail URL.
+                                -->
+
+                                <a
+                                    href="#"
+                                    class="read-button">
+
+                                    Read Article →
+
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+
+                {% empty %}
+
+
+                    <!-- NO POSTS -->
+
+                    <div class="col-12">
+
+                        <div class="empty-posts">
+
+                            <div class="empty-icon">
+                                📝
+                            </div>
+
+
+                            <h3>
+                                No posts yet
+                            </h3>
+
+
+                            <p>
+
+                                Be the first person to share
+                                something with the community.
+
+                            </p>
+
+
+                            {% if user.is_authenticated %}
+
+                                <a
+                                    href="{% url 'create_post' %}"
+                                    class="hero-button">
+
+                                    Create Your First Post →
+
+                                </a>
+
+                            {% else %}
+
+                                <a
+                                    href="{% url 'register' %}"
+                                    class="hero-button">
+
+                                    Create an Account →
+
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PAGINATION
+            ================================================== -->
+
+            {% if posts.has_other_pages %}
+
+                <div class="home-pagination">
+
+
+                    {% if posts.has_previous %}
+
+                        <a
+                            href="?page={{ posts.previous_page_number }}"
+                            class="page-button">
+
+                            ← Previous
+
+                        </a>
+
+                    {% endif %}
+
+
+                    <span class="page-button">
+
+                        Page {{ posts.number }}
+
+                    </span>
+
+
+                    {% if posts.has_next %}
+
+                        <a
+                            href="?page={{ posts.next_page_number }}"
+                            class="page-button">
+
+                            Next →
+
+                        </a>
+
+                    {% endif %}
+
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

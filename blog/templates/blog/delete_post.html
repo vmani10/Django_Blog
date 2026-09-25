@@ -1,0 +1,77 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Delete Post | DjangoBlog{% endblock %}
+
+{% block content %}
+
+<div
+    class="container"
+    style="padding:80px 15px;">
+
+    <div
+        style="
+            max-width:600px;
+            margin:auto;
+            background:white;
+            padding:40px;
+            border-radius:18px;
+            text-align:center;
+            border:1px solid #e5e7eb;
+        ">
+
+        <h1 class="mb-3">
+            Delete Post?
+        </h1>
+
+        <p class="text-muted">
+            Are you sure you want to delete:
+        </p>
+
+        <h3 class="mb-4">
+            "{{ post.title }}"
+        </h3>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                style="
+                    background:#b91c1c;
+                    color:white;
+                    border:none;
+                    padding:11px 22px;
+                    border-radius:8px;
+                    font-weight:700;
+                ">
+
+                Yes, Delete
+
+            </button>
+
+
+            <a
+                href="{% url 'post_detail' post.slug %}"
+                style="
+                    display:inline-block;
+                    margin-left:8px;
+                    padding:10px 20px;
+                    border:1px solid #d1d5db;
+                    border-radius:8px;
+                    text-decoration:none;
+                    color:#374151;
+                ">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

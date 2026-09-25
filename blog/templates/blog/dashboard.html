@@ -1,0 +1,410 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Dashboard | DjangoBlog{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .dashboard-page {
+        min-height: 100vh;
+        background: #f7f8fa;
+        padding: 50px 0 80px;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(135deg, #111827, #374151);
+        color: white;
+        padding: 40px;
+        border-radius: 18px;
+        margin-bottom: 35px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-header p {
+        color: #d1d5db;
+    }
+
+    .create-btn {
+        display: inline-block;
+        background: white;
+        color: #111827;
+        padding: 11px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .create-btn:hover {
+        background: #e5e7eb;
+        color: #111827;
+    }
+
+    .stat-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        height: 100%;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: 800;
+        color: #111827;
+    }
+
+    .stat-title {
+        color: #6b7280;
+        margin-top: 5px;
+    }
+
+    .section-title {
+        margin: 45px 0 25px;
+        font-size: 28px;
+        font-weight: 800;
+    }
+
+    .post-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        overflow: hidden;
+        height: 100%;
+        transition: 0.3s;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,.08);
+    }
+
+    .post-image {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+    }
+
+    .no-image {
+        height: 190px;
+        background: linear-gradient(135deg, #111827, #4b5563);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 45px;
+    }
+
+    .post-body {
+        padding: 22px;
+    }
+
+    .post-title {
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .post-date {
+        font-size: 13px;
+        color: #9ca3af;
+        margin-bottom: 12px;
+    }
+
+    .post-description {
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .post-actions {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        display: inline-block;
+        padding: 8px 13px;
+        border-radius: 7px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .action-btn:hover {
+        background: #111827;
+        color: white;
+    }
+
+    .edit-btn {
+        background: #111827;
+        color: white;
+    }
+
+    .delete-btn {
+        color: #b91c1c;
+        border-color: #fecaca;
+    }
+
+    .delete-btn:hover {
+        background: #b91c1c;
+        color: white;
+    }
+
+    .empty-box {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+</style>
+
+
+<div class="dashboard-page">
+
+    <div class="container">
+
+
+        <div class="dashboard-header">
+
+            <h1>
+                Welcome, {{ user.username }} 👋
+            </h1>
+
+            <p>
+                Manage your blog posts and share your ideas.
+            </p>
+
+            <a
+                href="{% url 'create_post' %}"
+                class="create-btn">
+
+                + Create New Post
+
+            </a>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="stat-card">
+
+                    <div class="stat-number">
+                        {{ post_count }}
+                    </div>
+
+                    <div class="stat-title">
+                        My Posts
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="stat-card">
+
+                    <div class="stat-number">
+                        {{ comment_count }}
+                    </div>
+
+                    <div class="stat-title">
+                        My Comments
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="stat-card">
+
+                    <div class="stat-number">
+                        Django
+                    </div>
+
+                    <div class="stat-title">
+                        Platform
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <h2 class="section-title">
+            My Blog Posts
+        </h2>
+
+
+        <div class="row g-4">
+
+            {% for post in posts %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <article class="post-card">
+
+
+                        {% if post.image %}
+
+                            <img
+                                src="{{ post.image.url }}"
+                                alt="{{ post.title }}"
+                                class="post-image"
+                            >
+
+                        {% else %}
+
+                            <div class="no-image">
+                                ✍️
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="post-body">
+
+                            <h3 class="post-title">
+                                {{ post.title }}
+                            </h3>
+
+
+                            <div class="post-date">
+
+                                {{ post.created_at|date:"M d, Y" }}
+
+                            </div>
+
+
+                            <p class="post-description">
+
+                                {{ post.content|truncatewords:20 }}
+
+                            </p>
+
+
+                            <div class="post-actions">
+
+
+                                <!-- VIEW -->
+
+                                <a
+                                    href="{% url 'post_detail' post.slug %}"
+                                    class="action-btn">
+
+                                    View Post
+
+                                </a>
+
+
+                                <!-- EDIT -->
+
+                                <a
+                                    href="{% url 'edit_post' post.slug %}"
+                                    class="action-btn edit-btn">
+
+                                    Edit
+
+                                </a>
+
+
+                                <!-- DELETE -->
+
+                                <a
+                                    href="{% url 'delete_post' post.slug %}"
+                                    class="action-btn delete-btn">
+
+                                    Delete
+
+                                </a>
+
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+            {% empty %}
+
+                <div class="col-12">
+
+                    <div class="empty-box">
+
+                        <h3>
+                            No posts yet 📝
+                        </h3>
+
+                        <p>
+                            Create your first blog post.
+                        </p>
+
+                        <a
+                            href="{% url 'create_post' %}"
+                            class="create-btn">
+
+                            Create Post
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="text-center mt-5">
+
+            <a
+                href="{% url 'home' %}"
+                class="action-btn">
+
+                ← Home
+
+            </a>
+
+            <a
+                href="{% url 'profile' %}"
+                class="action-btn">
+
+                Profile
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
